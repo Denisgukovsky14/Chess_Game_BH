@@ -39,6 +39,16 @@ public class Game : MonoBehaviour
 
     void Start()
     {
+
+        GameObject.Find("Guardian").GetComponent<Chessman>().Activate();
+        GameObject.Find("Warrior").GetComponent<Chessman>().Activate();
+
+        if (currentPlayer == "Enemy")
+        {
+            Debug.Log("ГовноГовно");
+            GameObject.Find("Guardian").GetComponent<Chessman>().OnMouseUp();
+        }
+
         //mainCamera.enabled = true;
         cameraController = Camera.main.GetComponent<CamerController>();
 
@@ -49,13 +59,15 @@ public class Game : MonoBehaviour
         // Создание фигур специальной функцией Create()
         Players = new GameObject[]
         {
-            Create("Warrior",4,0)
+            //Create("Warrior",5,0),
+            GameObject.Find("Warrior")
         };
 
         
         Enemies = new GameObject[]
         {
-            Create("Guardian",4,7)
+            //Create("Guardian",4,7)
+            GameObject.Find("Guardian")
         };
 
 
@@ -71,7 +83,8 @@ public class Game : MonoBehaviour
         cameraController.enabled = true;
     }
 
-    // Сама функция Create()
+
+    /*
     public GameObject Create(string name, int x, int y)
     {
         // Создание пустой абстракции, наделение её нужными свойствами 
@@ -98,6 +111,7 @@ public class Game : MonoBehaviour
 
 
     }
+    */
 
     // Сама функция SetPosition()
     public void SetPosition(GameObject obj)

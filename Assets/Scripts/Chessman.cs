@@ -13,11 +13,11 @@ public class Chessman : MonoBehaviour
     public GameObject movePlate;
 
     //позиции
-    private int xBoard = 0;
-    private int yBoard = 0;
+    [SerializeField] int xBoard = 0;
+    [SerializeField] int yBoard = 0;
 
     //очередь ходить
-    private string player;
+    private string player ;
 
     //ссылка на спрайт
     public Sprite Black_King;
