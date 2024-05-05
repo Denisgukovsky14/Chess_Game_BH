@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,11 +7,22 @@ public class Chessman : MonoBehaviour
 {
     //public Enemy Enemy ;
 
+
+    public Transform Position;
+    public float Speed;
+
+    [SerializeField] private AudioSource HealSound;
+    
+
     public LayerMask obstacleLayer;
 
     //ссылки
     public GameObject Controller;
     public GameObject movePlate;
+
+    //Жизнь и максимум жизни
+    public float health = 10.0f;
+    public float maxHealth = 100.0f;
 
     //позиции
     [SerializeField] int xBoard = 0;
@@ -71,7 +83,9 @@ public class Chessman : MonoBehaviour
         x += -3.5f;
         y += -3.5f;
 
-        this.transform.position = new Vector3(x, y, 0);
+        StartMove(x, y);
+
+        //this.transform.position = new Vector3(x, y, 0);
     }
 
     public int GetXBoard()
@@ -92,6 +106,32 @@ public class Chessman : MonoBehaviour
     public void SetYBoard(int y)
     {
         yBoard = y;
+    }
+
+
+    private IEnumerator Move(float x, float y)
+    {
+
+        var FinalPos = new Vector2( x, y );
+        const float moveTime = 1f;
+        var time = 0f;
+
+        while (time < moveTime)
+        {
+            transform.position = Vector3.Lerp(this.transform.position, FinalPos, time);
+            time += Time.deltaTime;
+            yield return null;
+        }
+
+        //xBoard = x;
+        //yBoard = y;
+        //SetCoords();
+
+    }
+
+    public void StartMove(float x, float y)
+    {
+        StartCoroutine(Move(x, y));
     }
 
     public void OnMouseUp()
@@ -234,8 +274,17 @@ public class Chessman : MonoBehaviour
                 Destroy(GameObject.Find("Warrior"));
             }
         }
-        
-        
-
     }
+
+    public void Heal(float amount)
+    {
+        HealSound.Play();
+        health += amount;
+        if (health > maxHealth)
+        {
+            health = maxHealth;
+        }
+        Debug.Log("healed");
+    }
+
 }

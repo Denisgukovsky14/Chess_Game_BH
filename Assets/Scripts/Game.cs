@@ -27,6 +27,12 @@ public class Game : MonoBehaviour
     // Массив координат препятствий на уровне
     public List<Vector2> ObCoords;
 
+    // Массив координат хилок на уровне
+    public List<Vector2> HealItemsCoords;
+
+    public List<GameObject> Potions;
+    public List<GameObject> HealItems;
+
     //Выход с уровня ( условие победы )
 
     public GameObject Exit;
@@ -39,7 +45,7 @@ public class Game : MonoBehaviour
 
     void Start()
     {
-
+        //GameObject.Find("MainTheme").GetComponent<MusicController>().RestartTrack();
         GameObject.Find("Guardian").GetComponent<Chessman>().Activate();
         GameObject.Find("Warrior").GetComponent<Chessman>().Activate();
 
@@ -55,6 +61,10 @@ public class Game : MonoBehaviour
         // Создание массива координат препятствий
         List<GameObject> Obstacles = new List<GameObject>(GameObject.FindGameObjectsWithTag("Obstacle"));
         ObCoords = new List<Vector2>(NumerCoords(Obstacles));
+
+        // Создание массива координат лечилок
+        HealItems = new List<GameObject>(GameObject.FindGameObjectsWithTag("Heal"));
+        HealItemsCoords = new List<Vector2>(NumerHealCoords(HealItems));
 
         // Создание фигур специальной функцией Create()
         Players = new GameObject[]
@@ -165,6 +175,8 @@ public class Game : MonoBehaviour
             gameOver = false;
 
             SceneManager.LoadScene("Game");
+
+            GameObject.Find("MainTheme").GetComponent<MusicController>().RestartTrack();
         }
     }
 
@@ -188,6 +200,26 @@ public class Game : MonoBehaviour
         }
 
         return ObCoords;
+    }
+
+    public List<Vector2> NumerHealCoords(List<GameObject> HealItems)
+    {
+
+        foreach (GameObject obj in HealItems)
+        {
+            Vector2 objPosition = obj.transform.position; // получение позиции объекта
+
+            HealItemsCoords.Add(objPosition);
+        }
+
+        return HealItemsCoords;
+    }
+
+    public void DeletePotion( Vector2 PotionCoord )
+    {
+        int index = HealItemsCoords.FindIndex(element => element == PotionCoord);
+        Destroy(HealItems[index]);
+        HealItems.Remove(HealItems[index]);
     }
 
 }
