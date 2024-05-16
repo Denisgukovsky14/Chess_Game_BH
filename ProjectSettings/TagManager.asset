@@ -9,6 +9,8 @@ TagManager:
   - LooserText
   - Obstacle
   - Heal
+  - damageUp
+  - Hill_armor
   layers:
   - Default
   - TransparentFX

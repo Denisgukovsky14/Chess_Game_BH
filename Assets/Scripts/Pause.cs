@@ -9,7 +9,7 @@ public class Pause : MonoBehaviour
 
     private void Awake()
     {
-        pausePanel.SetActive(false);
+        //pausePanel.SetActive(false);
     }
 
     public void SetPause()

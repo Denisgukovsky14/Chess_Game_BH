@@ -9,6 +9,9 @@ public class PlayerBladeDamage : MonoBehaviour
     public float damage_1 = 1.0f;
     public bool isAttacking = false;
 
+    private bool IsBoost = false;
+    private int Boost;
+
     private Collider2D CurrentEnemy;
     private bool AtackPermission = false;
 
@@ -52,7 +55,11 @@ public class PlayerBladeDamage : MonoBehaviour
         }
     }
 
-
+    public void BoostDamage( int boost )
+    {
+        IsBoost = true;
+        Boost = boost;
+    }
 
     public void OnTriggerStay2D(Collider2D collision)
     {
@@ -88,7 +95,20 @@ public class PlayerBladeDamage : MonoBehaviour
         //GameObject.Find("MainTheme").GetComponent<MusicController>().PlaySFX2(PlayerDeathSound.clip);
         GameObject.Find("MainTheme").GetComponent<MusicController>().PlaySFX(AtackSound);
         Mob_hp mob_hp = collision.GetComponent<Mob_hp>();
-        mob_hp.Damage(damage_1);
+
+        if (IsBoost)
+        {
+            mob_hp.Damage(damage_1 + Boost);
+            IsBoost = false;
+        }
+        else
+        {
+            mob_hp.Damage(damage_1);
+        }
 
     }
+
+
+
+
 }

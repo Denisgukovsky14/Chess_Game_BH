@@ -8,6 +8,8 @@ public class Chessman : MonoBehaviour
 {
     //public Enemy Enemy ;
 
+    public float armor_lv1 = 0f;
+    public float max_armor;
     private bool IsLeft ;
 
     public Animator animator;
@@ -402,13 +404,34 @@ public class Chessman : MonoBehaviour
     }
 
     public void Damage(float damage_1)
-    {
-        health -= damage_1;
-        if (health <= 0)
         {
-            Controller.GetComponent<Game>().Winner("Стражник убил игрока!");
-            Death();
+            if ((armor_lv1 > 0))
+            {
+                health -= (damage_1 / 2);
+                armor_lv1 -= 1f;
+            }
+
+            if (armor_lv1 <= 0)
+            {
+                health -= damage_1;
+            }
+
+            if (health <= 0f)
+            {
+                Controller.GetComponent<Game>().Winner("Стражник убил игрока!");
+                Death();
+            }
         }
+
+    public void Heal_armor(float heal_armor)
+    {
+
+        armor_lv1 += heal_armor;
+        if (armor_lv1 >= max_armor)
+        {
+            armor_lv1 = max_armor;
+        }
+
     }
 
 
