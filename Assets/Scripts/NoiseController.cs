@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class NoiseController : MonoBehaviour
 {
+    
     public MovePlate Plate;
     public float Volume;
 
@@ -17,5 +18,5 @@ public class NoiseController : MonoBehaviour
         Plate.Volume = value;
         Volume = value;
     }
-
+    
 }

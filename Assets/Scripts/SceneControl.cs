@@ -4,6 +4,7 @@ using UnityEngine;
 
 public static class SceneControl : object
 {
+    
     public static int SN;
     public static int CL;
 
@@ -17,4 +18,5 @@ public static class SceneControl : object
     {
 
     }
+    
 }

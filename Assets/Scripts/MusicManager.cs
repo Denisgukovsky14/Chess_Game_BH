@@ -4,6 +4,7 @@ using UnityEngine;
 
 public static class MusicManager
 {
+    /*
     private static AudioSource audioSource;
 
     public static float VolumeSound ;
@@ -18,4 +19,5 @@ public static class MusicManager
     {
         audioSource.PlayOneShot(source.clip);
     }
+    */
 }

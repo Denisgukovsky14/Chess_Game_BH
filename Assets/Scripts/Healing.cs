@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Healing : MonoBehaviour
 {
+    /*
     public float healAmount = 10.0f;
     public Vector2 position;
     public GameObject Warrior;
@@ -14,4 +15,5 @@ public class Healing : MonoBehaviour
             player.Heal(healAmount);
             Destroy(gameObject);
     }
+    */
 }

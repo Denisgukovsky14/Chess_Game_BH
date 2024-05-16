@@ -7,6 +7,7 @@ public class MusicController : MonoBehaviour
 
     [SerializeField] AudioSource audioSource;
     [SerializeField] AudioSource audioSourceSFX;
+    [SerializeField] AudioSource ReserveaudioSourceSFX;
 
     public static MusicController instance;
 
@@ -15,10 +16,15 @@ public class MusicController : MonoBehaviour
 
     void Start()
     {
+        
         if (PlayerPrefs.HasKey("SavedMusicVolume"))
         {
             float savedMusicVolume = PlayerPrefs.GetFloat("SavedMusicVolume");
             mainMixer.SetFloat("MusicVolume", savedMusicVolume);
+        }
+        else
+        {
+            mainMixer.SetFloat("MusicVolume", 0);
         }
 
         if (PlayerPrefs.HasKey("SavedSoundVolume"))
@@ -26,6 +32,15 @@ public class MusicController : MonoBehaviour
             float savedSoundVolume = PlayerPrefs.GetFloat("SavedSoundVolume");
             mainMixer.SetFloat("SoundsVolume", savedSoundVolume);
         }
+        else
+        {
+            mainMixer.SetFloat("SoundsVolume", 0);
+        }
+
+
+
+        PlayerPrefs.Save();
+
     }
 
 
@@ -69,8 +84,15 @@ public class MusicController : MonoBehaviour
 
     public void PlaySFX(AudioClip clip)
     {
+        audioSourceSFX.Stop();
         audioSourceSFX.clip = clip;
         audioSourceSFX.Play();
+    }
+
+    public void PlaySFX2(AudioClip clip)
+    {
+        ReserveaudioSourceSFX.clip = clip;
+        ReserveaudioSourceSFX.Play();
     }
 
     public AudioSource GetMusic()

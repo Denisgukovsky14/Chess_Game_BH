@@ -9,9 +9,6 @@ public class VolumeController : MonoBehaviour
     public static AudioSource AudioSourceSFX;
 
     private Slider slider;
-    //public Slider Slider { get { return slider; } private set { slider = value; }  }
-    //private Slider SoundSlider;
-
 
     private MusicController Manager ;
 
@@ -20,26 +17,21 @@ public class VolumeController : MonoBehaviour
     {
 
         Manager = MusicController.instance;
-
         slider = GetComponent<Slider>();
 
-        /*
-        if ( this.transform.name == "NoiseVolume")
+        if ( this.name == "NoiseVolume")
         {
-            SoundSlider = GetComponent<Slider>();
+            if (PlayerPrefs.HasKey("SavedSoundVolume"))
+            {
+                slider.value = PlayerPrefs.GetFloat("SavedSoundVolume");
+            }
         }
-        else
-        {
-            slider = GetComponent<Slider>();
-        }
-        */
-
-        //slider.onValueChanged.AddListener(OnSliderValueChanged);
-        //slider.onValueChanged.AddListener(OnSliderValueChangedSounds);
+        else { 
 
         if (PlayerPrefs.HasKey("SliderValue"))
         {
             slider.value = PlayerPrefs.GetFloat("SliderValue");
+        }
         }
 
     }

@@ -2,12 +2,16 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Threading;
 
 public class Chessman : MonoBehaviour
 {
     //public Enemy Enemy ;
 
+    private bool IsLeft ;
 
+    public Animator animator;
+    //public AnimationExchanger A_Operator;
     public Transform Position;
     public float Speed;
 
@@ -23,6 +27,7 @@ public class Chessman : MonoBehaviour
     //Жизнь и максимум жизни
     public float health = 10.0f;
     public float maxHealth = 100.0f;
+    public int rumble = 0;
 
     //позиции
     [SerializeField] int xBoard = 0;
@@ -54,10 +59,12 @@ public class Chessman : MonoBehaviour
     // Функция Activate с проверкой вызывателя метода через this.name
     public void Activate()
     {
+        animator.GetComponent<Animator>();
+        //A_Operator = this.GetComponent<AnimationExchanger>();
 
         Controller = GameObject.FindGameObjectWithTag("GameController");
 
-        SetCoords();
+        SetCoords( xBoard, yBoard );
 
         switch (this.name)
         {
@@ -66,26 +73,56 @@ public class Chessman : MonoBehaviour
                 player = "Enemy";
                 break;
             case "Warrior":
+                //animator.GetComponent<Animator>();
                 this.GetComponent<SpriteRenderer>().sprite = White_King;
                 player = "Player";
                 break;
         }
     }
 
+    public void Update()
+    {
+        
+
+        
+
+    }
+
 
     // Эта функция изменяет координаты obj из класса Game через this.
-    public void SetCoords()
+
+    public void SetCoords( int x, int y)
     {
-        float x = xBoard;
-        float y = yBoard;
+
+        if( xBoard < x)
+        {
+            transform.GetChild(0).GetComponent<SpriteRenderer>().flipX = false;
+            IsLeft = false;
+        }
+        else
+        {
+            transform.GetChild(0).GetComponent<SpriteRenderer>().flipX = true;
+            IsLeft = true;
+        }
+
+        xBoard = x;
+        yBoard = y;
+
+        float Newx = xBoard;
+        float Newy = yBoard;
 
 
-        x += -3.5f;
-        y += -3.5f;
+        Newx += -3.5f;
+        Newy += -3.5f;
 
-        StartMove(x, y);
+        StartCoroutine(Move(Newx, Newy));
+        
 
-        //this.transform.position = new Vector3(x, y, 0);
+        if (this.GetComponent<PlayerBladeDamage>() != null)
+        {
+            this.GetComponent<PlayerBladeDamage>().isAttacking = false;
+        }
+        //this.transform.position = new Vector3(Newx, Newy, 0);
     }
 
     public int GetXBoard()
@@ -108,20 +145,40 @@ public class Chessman : MonoBehaviour
         yBoard = y;
     }
 
+    // Оптимизировать все до одного - двух методов, задавать координаты в МУВ
 
     private IEnumerator Move(float x, float y)
     {
 
+        if (_isDeath)
+        {
+            yield break;
+        }
         var FinalPos = new Vector2( x, y );
         const float moveTime = 1f;
         var time = 0f;
+        State = States.Move;
 
         while (time < moveTime)
         {
             transform.position = Vector3.Lerp(this.transform.position, FinalPos, time);
             time += Time.deltaTime;
+
             yield return null;
+
+            if ( time >= 0.5f  )
+            {
+                State = States.Idle;
+            }
+            
         }
+
+
+
+
+
+        //State = States.Idle;
+
 
         //xBoard = x;
         //yBoard = y;
@@ -131,7 +188,7 @@ public class Chessman : MonoBehaviour
 
     public void StartMove(float x, float y)
     {
-        StartCoroutine(Move(x, y));
+        
     }
 
     public void OnMouseUp()
@@ -276,6 +333,8 @@ public class Chessman : MonoBehaviour
         }
     }
 
+
+
     public void Heal(float amount)
     {
         HealSound.Play();
@@ -287,4 +346,87 @@ public class Chessman : MonoBehaviour
         Debug.Log("healed");
     }
 
+
+    public void SetupAtack()
+    {
+        State = States.Atack;
+   
+    }
+
+    public void Killed( Chessman Victim )
+    {
+        Victim.Death();
+    }
+
+
+    public void ToIdle()
+    {
+        State = States.Idle;
+    }
+
+    private bool _isDeath;
+
+    public void Death()
+    {
+        State = States.Death;
+        _isDeath = true;
+        Debug.Log(State);
+    }
+
+    private States _currentState; 
+
+    private States State
+    {
+        get {
+            return _currentState;
+            //return (States)animator.GetInteger("State"); 
+        }
+        set {
+
+            if (_isDeath)
+            {
+                return;
+            }
+
+            if (_currentState == value)
+            {
+                return;
+            }
+
+            //Debug.LogError($"SET STATE {gameObject.name} OLD STATE = {(States)animator.GetInteger("State")} NEW STATE =  {value}");
+
+            _currentState = value;
+            animator.SetInteger("State", (int)value);
+            //animator.SetTrigger("Attack");
+        }
+    }
+
+    public void Damage(float damage_1)
+    {
+        health -= damage_1;
+        if (health <= 0)
+        {
+            Controller.GetComponent<Game>().Winner("Стражник убил игрока!");
+            Death();
+        }
+    }
+
+
+
+    /*
+    private States State
+    {
+        get { return (States)animator.GetInteger("state"); }
+        set { animator.SetInteger("state", (int)value); }
+    }
+    */
+
+}
+
+public enum States
+{
+    Idle = 0,
+    Move = 1,
+    Atack = 2,
+    Death = 3
 }

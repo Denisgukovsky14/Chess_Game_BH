@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 public class Experiment : MonoBehaviour
 {
+    /*
     public AudioSource audioSource;
     private Slider slider;
 
@@ -44,4 +45,5 @@ public class Experiment : MonoBehaviour
             slider.value = PlayerPrefs.GetFloat("SliderValue");
         }
     }
+    */
 }

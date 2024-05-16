@@ -370,7 +370,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\u0413\u0440\u043E\u043C\u043A\u043E\u0441\u0442\u044C \u041C\u0443\u0437\u044B\u043A\u0438"
+  m_text: Music volume
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -568,8 +568,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c068ea59bca3bc747bc95c10e2008af1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  slider: {fileID: 0}
-  SoundSlider: {fileID: 0}
 --- !u!114 &441075558
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1526,7 +1524,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\u0413\u0440\u043E\u043C\u043A\u043E\u0441\u0442\u044C \u0417\u0432\u0443\u043A\u043E\u0432"
+  m_text: Sound volume
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -1702,6 +1700,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   DefaultMainMusic: {fileID: 0}
   TapSound: {fileID: 0}
+  InventoryPanel: {fileID: 0}
 --- !u!1 &1438762174
 GameObject:
   m_ObjectHideFlags: 0
@@ -1819,8 +1818,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c068ea59bca3bc747bc95c10e2008af1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  slider: {fileID: 0}
-  SoundSlider: {fileID: 0}
 --- !u!1 &1464356138
 GameObject:
   m_ObjectHideFlags: 0
@@ -2088,8 +2085,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c068ea59bca3bc747bc95c10e2008af1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  slider: {fileID: 1710039131}
-  SoundSlider: {fileID: 0}
 --- !u!1 &1844397539
 GameObject:
   m_ObjectHideFlags: 0

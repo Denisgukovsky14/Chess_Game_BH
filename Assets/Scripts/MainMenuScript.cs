@@ -9,6 +9,7 @@ public class MainMenuScript : MonoBehaviour
 
     [SerializeField] private AudioClip DefaultMainMusic;
     [SerializeField] private AudioSource TapSound;
+    [SerializeField] GameObject InventoryPanel ;
 
     public void PlayCurrentLevel()
     {
@@ -21,22 +22,23 @@ public class MainMenuScript : MonoBehaviour
         TapSound = GetComponent<AudioSource>(); 
         SceneController();
         Debug.Log(currentSceneIndex);
-        SceneManager.sceneLoaded += SceneManager_sceneLoaded;
+        //SceneManager.sceneLoaded += SceneManager_sceneLoaded;
         SceneManager.LoadScene(2);
     }
 
     // Перенести в аудиоконтррлер
-
+    /*
     private void SceneManager_sceneLoaded(Scene arg0, LoadSceneMode arg1)
     {
         throw new System.NotImplementedException();
     }
-
+    */
     public void BackButtonOptions()
     {
         TapSound = GetComponent<AudioSource>();
-        SceneManager.LoadScene( SceneControl.SN );
+        SceneManager.LoadScene( "MainMenu" ); // SceneControl.SN
         Time.timeScale = 1;
+
     }
 
     public void ToOptions()
@@ -47,11 +49,23 @@ public class MainMenuScript : MonoBehaviour
         SceneManager.LoadScene(3);
     }
 
+    public void SetInventory()
+    {
+        TapSound = GetComponent<AudioSource>();
+        InventoryPanel.SetActive(true);
+    }
+
+    public void CloseInventory()
+    {
+        TapSound = GetComponent<AudioSource>();
+        InventoryPanel.SetActive(false);
+    }
+
     public void RestartLevel()
     {
         GameObject.Find("MainTheme").GetComponent<MusicController>().RestartTrack() ;
         TapSound = GetComponent<AudioSource>();
-        SceneManager.LoadScene( SceneControl.CL );
+        SceneManager.LoadScene ( SceneManager.GetActiveScene().buildIndex );
         Time.timeScale = 1;
     }
 
@@ -59,8 +73,9 @@ public class MainMenuScript : MonoBehaviour
     {
         GameObject.Find("MainTheme").GetComponent<MusicController>().SetMainTrack(DefaultMainMusic);
         TapSound = GetComponent<AudioSource>();
-        SceneManager.LoadScene(1);
+        SceneManager.LoadScene(2);
     }
+
 
     public void ExitGame()
     {

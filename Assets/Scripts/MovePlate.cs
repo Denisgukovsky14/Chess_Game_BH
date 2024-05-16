@@ -9,7 +9,9 @@ public class MovePlate : MonoBehaviour
     [SerializeField] private AudioSource ExitSound;
     [SerializeField] private AudioSource StepSound;
     [SerializeField] private AudioSource PlayerDeathSound;
+    [SerializeField] private AudioSource NaginateSound;
 
+    private bool IsDeath = false ;
     
 
 
@@ -58,7 +60,8 @@ public class MovePlate : MonoBehaviour
         // Если атакует
             if (attack)
             {
-                // Получение координат сущности
+            
+            // Получение координат сущности
                 GameObject cp = controller.GetComponent<Game>().GetPosition(matrixX, matrixY);
 
                 // Вектор предполагаемого движения
@@ -80,6 +83,8 @@ public class MovePlate : MonoBehaviour
 
             GameObject.Find("MainTheme").GetComponent<MusicController>().PlaySFX(StepSound.clip);
 
+            // Хилка
+
             if ( controller.GetComponent<Game>().HealItemsCoords.Contains(targetVector) )
             {
                 reference.GetComponent<Chessman>().Heal(10);
@@ -95,35 +100,46 @@ public class MovePlate : MonoBehaviour
                         GameObject.Find("MainTheme").GetComponent<MusicController>().PlaySFX(ExitSound.clip);
 
                         Destroy(GameObject.Find("Warrior"));
-                        controller.GetComponent<Game>().Winner("Вам удалось сбежать от стража!");
+                        controller.GetComponent<Game>().Win();
                         //Destroy(cp);
                     }
 
                 // Проверка на убийство Игрока
                     if (cp != null)
                     {
+                        //GameObject.Find("MainTheme").GetComponent<MusicController>().PlaySFX(NaginateSound.clip);
                         if (cp.name == "Warrior")
                         {
+                            //GameObject.Find("MainTheme").GetComponent<MusicController>().PlaySFX(NaginateSound.clip);
+                            //GameObject.Find("MainTheme").GetComponent<MusicController>().PlaySFX2(PlayerDeathSound.clip);
+                            //GameObject.Find("Guardian").GetComponent<Chessman>().SetupAtack();
                             controller.GetComponent<Game>().Winner("Стражник убил игрока!");
+                            reference.GetComponent<Chessman>().Killed( GameObject.Find("Warrior").GetComponent<Chessman>() );
+                            
+                            //GameObject.Find("MainTheme").GetComponent<MusicController>().PlaySFX(PlayerDeathSound.clip);
 
-                            GameObject.Find("MainTheme").GetComponent<MusicController>().PlaySFX(PlayerDeathSound.clip);
-
-                        }
-                    }
-
+                }
+            }
             
-            Destroy(cp);
+            if (cp == null)
+            {
+                Destroy(cp);
+            }
 
             }
 
-        
+            GameObject cp2 = controller.GetComponent<Game>().GetPosition(matrixX, matrixY);
+        if (cp2 == null)
+        {
+
             controller.GetComponent<Game>().SetEmpty(reference.GetComponent<Chessman>().GetXBoard(), reference.GetComponent<Chessman>().GetYBoard());
 
-            
-            reference.GetComponent<Chessman>().SetXBoard(matrixX);
-            reference.GetComponent<Chessman>().SetYBoard(matrixY);
-            reference.GetComponent<Chessman>().SetCoords();
-             
+
+            //reference.GetComponent<Chessman>().SetXBoard(matrixX);
+            //reference.GetComponent<Chessman>().SetYBoard(matrixY);
+            //GameObject.Find("MainTheme").GetComponent<MusicController>().PlaySFX(StepSound.clip);
+            reference.GetComponent<Chessman>().SetCoords(matrixX, matrixY);
+            //reference.GetComponent<PlayerBladeDamage>().isAttacking = false;
 
             //reference.GetComponent<Chessman>().StartMove(matrixX, matrixY);
             //reference.GetComponent<Chessman>().SetCoords();
@@ -134,8 +150,9 @@ public class MovePlate : MonoBehaviour
 
             controller.GetComponent<Game>().NextTurn();
 
+
             reference.GetComponent<Chessman>().DestroyMovePlates();
-        
+        }
 
         // Метод, благодаря которому враг ходит сам.
         if ( controller.GetComponent<Game>().GetPosition(matrixX, matrixY) == GameObject.Find("Warrior"))

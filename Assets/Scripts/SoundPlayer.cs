@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class SoundPlayer : MonoBehaviour
 {
+    
     public AudioSource myFx;
     public AudioClip hoverFx;
     public AudioClip clickFx;
@@ -15,8 +16,9 @@ public class SoundPlayer : MonoBehaviour
 
     public void ClickSound()
     {
-        myFx.PlayOneShot(clickFx);
+        //myFx.PlayOneShot(clickFx);
+        GameObject.Find("MainTheme").GetComponent<MusicController>().PlaySFX(clickFx);
     }
 
-
+    
 }

@@ -5,6 +5,7 @@ using UnityEngine.SceneManagement;
 
 public class HealScript : MonoBehaviour
 {
+    /*
     // Здоровье и максимум здоровья
 
     public float health = 10.0f;
@@ -25,5 +26,5 @@ public class HealScript : MonoBehaviour
         }
         Debug.Log("hill");
     }
-
+    */
 }

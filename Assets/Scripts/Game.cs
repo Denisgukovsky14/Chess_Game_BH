@@ -8,6 +8,11 @@ using TMPro;
 public class Game : MonoBehaviour
 {
 
+    private bool IsWin = false;
+    [SerializeField] private int x, y;
+    [SerializeField] private GameObject WinCanvas;
+
+    public bool DeathScene = false;
     public Camera mainCamera;
 
     private CamerController cameraController;
@@ -16,7 +21,7 @@ public class Game : MonoBehaviour
     public GameObject Simple_Figure;
 
     // Массив позиций на поле
-    private GameObject[,] positions = new GameObject[8, 8];
+    private GameObject[,] positions;
 
     // Массив 
     private GameObject[] Players = new GameObject[2];
@@ -45,6 +50,9 @@ public class Game : MonoBehaviour
 
     void Start()
     {
+
+        positions = new GameObject[x, y];
+
         //GameObject.Find("MainTheme").GetComponent<MusicController>().RestartTrack();
         GameObject.Find("Guardian").GetComponent<Chessman>().Activate();
         GameObject.Find("Warrior").GetComponent<Chessman>().Activate();
@@ -170,13 +178,26 @@ public class Game : MonoBehaviour
 
     public void Update()
     {
-        if ( gameOver == true && Input.GetMouseButtonDown(0))
+
+        if ( gameOver == true && Input.GetMouseButtonDown(0) )
         {
-            gameOver = false;
+            if (IsWin == true)
+            {
+                mainCamera.GetComponent<MainMenuScript>().ToMenu();
+                SceneManager.LoadScene(2);
+                IsWin = false;
+            }
+            else
+            {
 
-            SceneManager.LoadScene("Game");
+                mainCamera.GetComponent<DeathScreen>().OffDeathScereen();
 
-            GameObject.Find("MainTheme").GetComponent<MusicController>().RestartTrack();
+                gameOver = false;
+
+                SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+
+                GameObject.Find("MainTheme").GetComponent<MusicController>().RestartTrack();
+            }
         }
     }
 
@@ -184,9 +205,18 @@ public class Game : MonoBehaviour
     {
         gameOver = true;
 
-        GameObject TextBlock = GameObject.FindGameObjectWithTag("WinnerText");
-        TextMeshProUGUI TextComponent = TextBlock.GetComponent<TextMeshProUGUI>();
-        TextComponent.text = playerWinner + "\n\n" + "Нажмите на экран, чтобы начать заново" ;
+        //GameObject TextBlock = GameObject.FindGameObjectWithTag("WinnerText");
+        //TextMeshProUGUI TextComponent = TextBlock.GetComponent<TextMeshProUGUI>();
+        //TextComponent.text = playerWinner + "\n\n" + "Нажмите на экран, чтобы начать заново" ;
+
+        mainCamera.GetComponent<DeathScreen>().SetDeathScreen();
+    }
+
+    public void Win()
+    {
+        gameOver = true;
+        WinCanvas.SetActive(true);
+        IsWin = true;
     }
 
     public List<Vector2> NumerCoords(List<GameObject> Obstacles)
