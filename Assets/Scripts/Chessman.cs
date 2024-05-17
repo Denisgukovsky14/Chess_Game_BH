@@ -82,12 +82,10 @@ public class Chessman : MonoBehaviour
         }
     }
 
+
     public void Update()
     {
         
-
-        
-
     }
 
 
@@ -192,6 +190,8 @@ public class Chessman : MonoBehaviour
     {
         
     }
+
+    
 
     public void OnMouseUp()
     {

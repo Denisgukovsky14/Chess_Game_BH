@@ -63,7 +63,7 @@ public class PlayerBladeDamage : MonoBehaviour
 
     public void OnTriggerStay2D(Collider2D collision)
     {
-        attackButton.interactable = true;
+        //attackButton.interactable = true;
         /*
         if ( isAttacking == true && collision.name == "Guardian" )
         {
@@ -78,7 +78,7 @@ public class PlayerBladeDamage : MonoBehaviour
 
         if ( collision.name == "Guardian" )
         {
-            
+            attackButton.interactable = true;
             CurrentEnemy = collision;
             AtackPermission = true;
            

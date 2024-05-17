@@ -53,12 +53,14 @@ public class MainMenuScript : MonoBehaviour
     {
         TapSound = GetComponent<AudioSource>();
         InventoryPanel.SetActive(true);
+        Time.timeScale = 0;
     }
 
     public void CloseInventory()
     {
         TapSound = GetComponent<AudioSource>();
         InventoryPanel.SetActive(false);
+        Time.timeScale = 1;
     }
 
     public void RestartLevel()
